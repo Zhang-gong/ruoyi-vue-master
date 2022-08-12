@@ -16,6 +16,7 @@
           clearable
           @keyup.enter.native="handleQuery"
         />
+        
       </el-form-item>
       <el-form-item label="爱好" prop="studentHobby">
         <el-input
@@ -32,6 +33,15 @@
           value-format="yyyy-MM-dd"
           placeholder="请选择生日">
         </el-date-picker>
+      </el-form-item>
+            <el-form-item label="电话" prop="phoneNumber">
+        <el-input
+          v-model="queryParams.phoneNumber"
+          placeholder="请输入电话号"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+        
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -93,6 +103,7 @@
       <el-table-column label="爱好" align="center" prop="studentHobby" />
       <el-table-column label="性别" align="center" prop="studentSex" />
       <el-table-column label="状态" align="center" prop="studentStatus" />
+      <el-table-column label="电话" align="center" prop="phoneNumber" />   //8/11
       <el-table-column label="生日" align="center" prop="studentBirthday" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.studentBirthday, '{y}-{m}-{d}') }}</span>
@@ -138,6 +149,11 @@
         <el-form-item label="爱好" prop="studentHobby">
           <el-input v-model="form.studentHobby" placeholder="请输入爱好" />
         </el-form-item>
+
+        <el-form-item label="电话" prop="phoneNumber">
+          <el-input v-model="form.phoneNumber" place holder="请输入电话号码"/>
+        </el-form-item>
+
         <el-form-item label="生日" prop="studentBirthday">
           <el-date-picker clearable
             v-model="form.studentBirthday"
@@ -189,7 +205,8 @@ export default {
         studentHobby: null,
         studentSex: null,
         studentStatus: null,
-        studentBirthday: null
+        studentBirthday: null,
+        phoneNumber:null //新增 8/11
       },
       // 表单参数
       form: {},
@@ -271,15 +288,22 @@ export default {
               this.open = false;
               this.getList();
             });
-          } else {
+          } else if(this.form.studentAge>=0)
+          {
             addStudent(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
-            });
+            })}
+            else {
+               this.$message({showClose: true,
+               message: "新增失败:年龄必须大于0",
+               type: 'error'});
+               //this.open = false;
+               }
+            }
           }
-        }
-      });
+      );
     },
     /** 删除按钮操作 */
     handleDelete(row) {

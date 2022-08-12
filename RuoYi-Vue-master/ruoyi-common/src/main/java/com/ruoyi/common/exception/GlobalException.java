@@ -28,10 +28,10 @@ public class GlobalException extends RuntimeException
     {
     }
 
-    public GlobalException(String message)
-    {
-        this.message = message;
-    }
+        public GlobalException(String message)
+        {
+            this.message = message;
+        }
 
     public String getDetailMessage()
     {

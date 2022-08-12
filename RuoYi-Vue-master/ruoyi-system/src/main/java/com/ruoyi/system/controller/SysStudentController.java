@@ -77,6 +77,7 @@ public class SysStudentController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysStudent sysStudent)
     {
+
         return toAjax(sysStudentService.insertSysStudent(sysStudent));
     }
 

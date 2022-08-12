@@ -41,6 +41,10 @@ public class SysGoods extends BaseEntity
     /** 商品时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "商品时间", width = 30, dateFormat = "yyyy-MM-dd")
+
+
+
+
     private Date date;
 
     /** 商品种类 */

@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysStudentMapper;
@@ -52,6 +54,10 @@ public class SysStudentServiceImpl implements ISysStudentService
     @Override
     public int insertSysStudent(SysStudent sysStudent)
     {
+        if(sysStudent.getStudentAge()<0)
+        {
+            throw new GlobalException("客户错误");
+        }
         return sysStudentMapper.insertSysStudent(sysStudent);
     }
 

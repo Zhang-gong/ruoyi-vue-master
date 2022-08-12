@@ -40,6 +40,10 @@ public class SysStudent extends BaseEntity
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String studentStatus;
 
+    /**电话 */
+    @Excel(name="电话")
+    private String phoneNumber;
+
     /** 生日 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "生日", width = 30, dateFormat = "yyyy-MM-dd")
@@ -99,6 +103,16 @@ public class SysStudent extends BaseEntity
     {
         return studentStatus;
     }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber()
+    {
+        return phoneNumber;
+    }
     public void setStudentBirthday(Date studentBirthday) 
     {
         this.studentBirthday = studentBirthday;
@@ -118,6 +132,7 @@ public class SysStudent extends BaseEntity
             .append("studentHobby", getStudentHobby())
             .append("studentSex", getStudentSex())
             .append("studentStatus", getStudentStatus())
+            .append("phoneNumber",getPhoneNumber())
             .append("studentBirthday", getStudentBirthday())
             .toString();
     }
