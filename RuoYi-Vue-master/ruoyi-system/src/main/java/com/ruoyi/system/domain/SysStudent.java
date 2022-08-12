@@ -48,6 +48,9 @@ public class SysStudent extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "生日", width = 30, dateFormat = "yyyy-MM-dd")
     private Date studentBirthday;
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @Excel(name = "生日", width = 30, dateFormat = "yyyy-MM-dd")
+//    private Date[] dateForQuery=new Date[2];
 
     public void setStudentId(Long studentId) 
     {
@@ -118,10 +121,15 @@ public class SysStudent extends BaseEntity
         this.studentBirthday = studentBirthday;
     }
 
-    public Date getStudentBirthday() 
+    public Date getStudentBirthday()
     {
         return studentBirthday;
     }
+
+//    public Date[] getDateForQuery()
+//    {
+//        return dateForQuery;
+//    }
 
     @Override
     public String toString() {
@@ -134,6 +142,7 @@ public class SysStudent extends BaseEntity
             .append("studentStatus", getStudentStatus())
             .append("phoneNumber",getPhoneNumber())
             .append("studentBirthday", getStudentBirthday())
+//            .append("dateForQuery",getDateForQuery())
             .toString();
     }
 }
