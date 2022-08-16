@@ -26,7 +26,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
+      <el-form-item label="生日" prop="studentBirthday">
+        <el-date-picker clearable
+          v-model="queryParams.studentBirthday"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择生日">
+        </el-date-picker>
+      </el-form-item>
             <el-form-item label="电话" prop="phoneNumber">
         <el-input
           v-model="queryParams.phoneNumber"
@@ -36,16 +43,6 @@
         />
         
       </el-form-item>
-
-            <el-form-item label="生日区间" prop="dateForQuery">
-        <el-date-picker clearable
-          v-model="queryParams.dateForQuery"
-          type="datetimerange"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择生日">
-        </el-date-picker>
-      </el-form-item>
-      
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -209,8 +206,7 @@ export default {
         studentSex: null,
         studentStatus: null,
         studentBirthday: null,
-        dateForQuery: '',
-        phoneNumber:null, //新增 8/11
+        phoneNumber:null //新增 8/11
       },
       // 表单参数
       form: {},
@@ -226,11 +222,6 @@ export default {
     /** 查询学生信息列表 */
     getList() {
       this.loading = true;
-      this.queryParams.params={};
-      if(null!=this.queryParams.dateForQuery&&' '!=this.queryParams.dateForQuery){
-        this.queryParams.params["beginBeginTime"]=this.queryParams.dateForQuery[0];
-        this.queryParams.params["endBeginTime"]=this.queryParams.dateForQuery[1];
-      }
       listStudent(this.queryParams).then(response => {
         this.studentList = response.rows;
         this.total = response.total;

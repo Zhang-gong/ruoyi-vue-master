@@ -12,7 +12,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="studentSex"    column="student_sex"    />
         <result property="studentStatus"    column="student_status"    />
         <result property="studentBirthday"    column="student_birthday"    />
-<!--      <result property="dateForQuery" column="student_birthday"/>-->
         <result property="phoneNumber"  column="phonenumber"/>
     </resultMap>
 
@@ -29,8 +28,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="studentSex != null  and studentSex != ''"> and student_sex = #{studentSex}</if>
             <if test="studentStatus != null  and studentStatus != ''"> and student_status = #{studentStatus}</if>
             <if test="studentBirthday != null "> and student_birthday = #{studentBirthday}</if>
-<!--            <if test="dateForQuery[0] != null">and student_birthday between #{dateForQuery[0]} and  #{dateForQuery[1]}</if>-->
-            <if test="params.beginBeginTime!=null  and params.endBeginTime!=null">and student_birthday between #{params.beginBeginTime} and #{params.endBeginTime}</if>
             <if test="phoneNumber != null "> and phonenumber = #{phoneNumber}</if>
         </where>
     </select>
