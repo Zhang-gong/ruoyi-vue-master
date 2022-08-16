@@ -60,6 +60,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
+        <!--测试-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-test</artifactId>
+            <version>3.8.3</version>
+        </dependency>
 
     </dependencies>
 
