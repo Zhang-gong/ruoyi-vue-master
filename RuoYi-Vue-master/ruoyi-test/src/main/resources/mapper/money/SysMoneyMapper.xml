@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.test.mapper.SysMoneyMapper">
+    
+    <resultMap type="SysMoney" id="SysMoneyResult">
+        <result property="moneyId"    column="money_id"    />
+        <result property="moneyName"    column="money_name"    />
+        <result property="moneyStatus"    column="money_status"    />
+        <result property="moneyDate"    column="money_date"    />
+    </resultMap>
+
+    <sql id="selectSysMoneyVo">
+        select money_id, money_name, money_status, money_date from sys_money
+    </sql>
+
+    <select id="selectSysMoneyList" parameterType="SysMoney" resultMap="SysMoneyResult">
+        <include refid="selectSysMoneyVo"/>
+        <where>  
+            <if test="moneyId != null "> and money_id = #{moneyId}</if>
+            <if test="moneyName != null  and moneyName != ''"> and money_name like concat('%', #{moneyName}, '%')</if>
+            <if test="moneyStatus != null  and moneyStatus != ''"> and money_status = #{moneyStatus}</if>
+            <if test="moneyDate != null "> and money_date = #{moneyDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysMoneyByMoneyId" parameterType="Long" resultMap="SysMoneyResult">
+        <include refid="selectSysMoneyVo"/>
+        where money_id = #{moneyId}
+    </select>
+        
+    <insert id="insertSysMoney" parameterType="SysMoney" useGeneratedKeys="true" keyProperty="moneyId">
+        insert into sys_money
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moneyName != null">money_name,</if>
+            <if test="moneyStatus != null">money_status,</if>
+            <if test="moneyDate != null">money_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moneyName != null">#{moneyName},</if>
+            <if test="moneyStatus != null">#{moneyStatus},</if>
+            <if test="moneyDate != null">#{moneyDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysMoney" parameterType="SysMoney">
+        update sys_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moneyName != null">money_name = #{moneyName},</if>
+            <if test="moneyStatus != null">money_status = #{moneyStatus},</if>
+            <if test="moneyDate != null">money_date = #{moneyDate},</if>
+        </trim>
+        where money_id = #{moneyId}
+    </update>
+
+    <delete id="deleteSysMoneyByMoneyId" parameterType="Long">
+        delete from sys_money where money_id = #{moneyId}
+    </delete>
+
+    <delete id="deleteSysMoneyByMoneyIds" parameterType="String">
+        delete from sys_money where money_id in 
+        <foreach item="moneyId" collection="array" open="(" separator="," close=")">
+            #{moneyId}
+        </foreach>
+    </delete>
+</mapper>
