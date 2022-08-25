@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ColorProductMapper">
+    
+    <resultMap type="ColorProduct" id="ColorProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productColorCh"    column="product_color_ch"    />
+        <result property="productColorEn"    column="product_color_en"    />
+        <result property="productLastDate"    column="product_last_date"    />
+        <result property="productLastTime"    column="product_last_time"    />
+        <result property="productLastName"    column="product_last_name"    />
+        <result property="productLastTcode"    column="product_last_tcode"    />
+        <result property="productTerminal"    column="product_terminal"    />
+        <result property="productIp"    column="product_ip"    />
+    </resultMap>
+
+    <sql id="selectColorProductVo">
+        select product_id, product_color_ch, product_color_en, product_last_date, product_last_time, product_last_name, product_last_tcode, product_terminal, product_ip from color_product
+    </sql>
+
+    <select id="selectColorProductList" parameterType="ColorProduct" resultMap="ColorProductResult">
+        <include refid="selectColorProductVo"/>
+        <where>  
+            <if test="productColorCh != null  and productColorCh != ''"> and product_color_ch = #{productColorCh}</if>
+            <if test="productColorEn != null  and productColorEn != ''"> and product_color_en = #{productColorEn}</if>
+            <if test="productLastDate != null "> and product_last_date = #{productLastDate}</if>
+            <if test="productLastTime != null "> and product_last_time = #{productLastTime}</if>
+            <if test="productLastName != null  and productLastName != ''"> and product_last_name like concat('%', #{productLastName}, '%')</if>
+            <if test="productLastTcode != null  and productLastTcode != ''"> and product_last_tcode = #{productLastTcode}</if>
+            <if test="productTerminal != null  and productTerminal != ''"> and product_terminal = #{productTerminal}</if>
+            <if test="productIp != null  and productIp != ''"> and product_ip = #{productIp}</if>
+        </where>
+    </select>
+    
+    <select id="selectColorProductByProductId" parameterType="Long" resultMap="ColorProductResult">
+        <include refid="selectColorProductVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertColorProduct" parameterType="ColorProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into color_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productColorCh != null">product_color_ch,</if>
+            <if test="productColorEn != null">product_color_en,</if>
+            <if test="productLastDate != null">product_last_date,</if>
+            <if test="productLastTime != null">product_last_time,</if>
+            <if test="productLastName != null">product_last_name,</if>
+            <if test="productLastTcode != null">product_last_tcode,</if>
+            <if test="productTerminal != null">product_terminal,</if>
+            <if test="productIp != null">product_ip,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productColorCh != null">#{productColorCh},</if>
+            <if test="productColorEn != null">#{productColorEn},</if>
+            <if test="productLastDate != null">#{productLastDate},</if>
+            <if test="productLastTime != null">#{productLastTime},</if>
+            <if test="productLastName != null">#{productLastName},</if>
+            <if test="productLastTcode != null">#{productLastTcode},</if>
+            <if test="productTerminal != null">#{productTerminal},</if>
+            <if test="productIp != null">#{productIp},</if>
+         </trim>
+    </insert>
+
+    <update id="updateColorProduct" parameterType="ColorProduct">
+        update color_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productColorCh != null">product_color_ch = #{productColorCh},</if>
+            <if test="productColorEn != null">product_color_en = #{productColorEn},</if>
+            <if test="productLastDate != null">product_last_date = #{productLastDate},</if>
+            <if test="productLastTime != null">product_last_time = #{productLastTime},</if>
+            <if test="productLastName != null">product_last_name = #{productLastName},</if>
+            <if test="productLastTcode != null">product_last_tcode = #{productLastTcode},</if>
+            <if test="productTerminal != null">product_terminal = #{productTerminal},</if>
+            <if test="productIp != null">product_ip = #{productIp},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteColorProductByProductId" parameterType="Long">
+        delete from color_product where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteColorProductByProductIds" parameterType="String">
+        delete from color_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+</mapper>

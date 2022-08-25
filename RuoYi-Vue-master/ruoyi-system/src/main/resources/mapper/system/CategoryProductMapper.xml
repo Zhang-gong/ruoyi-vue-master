@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CategoryProductMapper">
+    
+    <resultMap type="CategoryProduct" id="CategoryProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productModel"    column="product_model"    />
+        <result property="productCategory"    column="product_category"    />
+        <result property="productComment"    column="product_comment"    />
+        <result property="productLastDate"    column="product_last_date"    />
+        <result property="productLastTime"    column="product_last_time"    />
+        <result property="productLastName"    column="product_last_name"    />
+        <result property="productLastTcode"    column="product_last_tcode"    />
+        <result property="productTerminal"    column="product_terminal"    />
+        <result property="productIp"    column="product_ip"    />
+    </resultMap>
+
+    <sql id="selectCategoryProductVo">
+        select product_id, product_model, product_category, product_comment, product_last_date, product_last_time, product_last_name, product_last_tcode, product_terminal, product_ip from category_product
+    </sql>
+
+    <select id="selectCategoryProductList" parameterType="CategoryProduct" resultMap="CategoryProductResult">
+        <include refid="selectCategoryProductVo"/>
+        <where>  
+            <if test="productModel != null  and productModel != ''"> and product_model = #{productModel}</if>
+            <if test="productCategory != null  and productCategory != ''"> and product_category = #{productCategory}</if>
+            <if test="productComment != null  and productComment != ''"> and product_comment = #{productComment}</if>
+            <if test="params.beginProductLastDate != null and params.beginProductLastDate != '' and params.endProductLastDate != null and params.endProductLastDate != ''"> and product_last_date between #{params.beginProductLastDate} and #{params.endProductLastDate}</if>
+            <if test="params.beginProductLastTime != null and params.beginProductLastTime != '' and params.endProductLastTime != null and params.endProductLastTime != ''"> and product_last_time between #{params.beginProductLastTime} and #{params.endProductLastTime}</if>
+            <if test="productLastName != null  and productLastName != ''"> and product_last_name like concat('%', #{productLastName}, '%')</if>
+            <if test="productLastTcode != null  and productLastTcode != ''"> and product_last_tcode = #{productLastTcode}</if>
+            <if test="productTerminal != null  and productTerminal != ''"> and product_terminal = #{productTerminal}</if>
+            <if test="productIp != null  and productIp != ''"> and product_ip = #{productIp}</if>
+        </where>
+    </select>
+    
+    <select id="selectCategoryProductByProductId" parameterType="Long" resultMap="CategoryProductResult">
+        <include refid="selectCategoryProductVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertCategoryProduct" parameterType="CategoryProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into category_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productModel != null">product_model,</if>
+            <if test="productCategory != null">product_category,</if>
+            <if test="productComment != null">product_comment,</if>
+            <if test="productLastDate != null">product_last_date,</if>
+            <if test="productLastTime != null">product_last_time,</if>
+            <if test="productLastName != null">product_last_name,</if>
+            <if test="productLastTcode != null">product_last_tcode,</if>
+            <if test="productTerminal != null">product_terminal,</if>
+            <if test="productIp != null">product_ip,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productModel != null">#{productModel},</if>
+            <if test="productCategory != null">#{productCategory},</if>
+            <if test="productComment != null">#{productComment},</if>
+            <if test="productLastDate != null">#{productLastDate},</if>
+            <if test="productLastTime != null">#{productLastTime},</if>
+            <if test="productLastName != null">#{productLastName},</if>
+            <if test="productLastTcode != null">#{productLastTcode},</if>
+            <if test="productTerminal != null">#{productTerminal},</if>
+            <if test="productIp != null">#{productIp},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCategoryProduct" parameterType="CategoryProduct">
+        update category_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productModel != null">product_model = #{productModel},</if>
+            <if test="productCategory != null">product_category = #{productCategory},</if>
+            <if test="productComment != null">product_comment = #{productComment},</if>
+            <if test="productLastDate != null">product_last_date = #{productLastDate},</if>
+            <if test="productLastTime != null">product_last_time = #{productLastTime},</if>
+            <if test="productLastName != null">product_last_name = #{productLastName},</if>
+            <if test="productLastTcode != null">product_last_tcode = #{productLastTcode},</if>
+            <if test="productTerminal != null">product_terminal = #{productTerminal},</if>
+            <if test="productIp != null">product_ip = #{productIp},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteCategoryProductByProductId" parameterType="Long">
+        delete from category_product where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteCategoryProductByProductIds" parameterType="String">
+        delete from category_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+</mapper>
