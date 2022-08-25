@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysProductMapper">
+    
+    <resultMap type="SysProduct" id="SysProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productType"    column="product_type"    />
+        <result property="productRemark"    column="product_remark"    />
+        <result property="productLastDate"    column="product_last_date"    />
+        <result property="productLastTime"    column="product_last_time"    />
+        <result property="productLastName"    column="product_last_name"    />
+        <result property="productLastTcode"    column="product_last_tcode"    />
+        <result property="productTerminal"    column="product_terminal"    />
+        <result property="roductIp"    column="roduct_ip"    />
+    </resultMap>
+
+    <sql id="selectSysProductVo">
+        select product_id, product_type, product_remark, product_last_date, product_last_time, product_last_name, product_last_tcode, product_terminal, roduct_ip from sys_product
+    </sql>
+
+    <select id="selectSysProductList" parameterType="SysProduct" resultMap="SysProductResult">
+        <include refid="selectSysProductVo"/>
+        <where>  
+            <if test="productType != null  and productType != ''"> and product_type like concat('%', #{productType}, '%')</if>
+            <if test="productRemark != null  and productRemark != ''"> and product_remark like concat('%', #{productRemark}, '%')</if>
+            <if test="params.beginProductLastDate != null and params.beginProductLastDate != '' and params.endProductLastDate != null and params.endProductLastDate != ''"> and product_last_date between #{params.beginProductLastDate} and #{params.endProductLastDate}</if>
+            <if test="params.beginProductLastTime != null and params.beginProductLastTime != '' and params.endProductLastTime != null and params.endProductLastTime != ''"> and product_last_time between #{params.beginProductLastTime} and #{params.endProductLastTime}</if>
+            <if test="productLastName != null  and productLastName != ''"> and product_last_name like concat('%', #{productLastName}, '%')</if>
+            <if test="productLastTcode != null  and productLastTcode != ''"> and product_last_tcode like concat('%', #{productLastTcode}, '%')</if>
+            <if test="productTerminal != null  and productTerminal != ''"> and product_terminal = #{productTerminal}</if>
+            <if test="roductIp != null  and roductIp != ''"> and roduct_ip = #{roductIp}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysProductByProductId" parameterType="Long" resultMap="SysProductResult">
+        <include refid="selectSysProductVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertSysProduct" parameterType="SysProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into sys_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productType != null">product_type,</if>
+            <if test="productRemark != null">product_remark,</if>
+            <if test="productLastDate != null">product_last_date,</if>
+            <if test="productLastTime != null">product_last_time,</if>
+            <if test="productLastName != null">product_last_name,</if>
+            <if test="productLastTcode != null">product_last_tcode,</if>
+            <if test="productTerminal != null">product_terminal,</if>
+            <if test="roductIp != null">roduct_ip,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productType != null">#{productType},</if>
+            <if test="productRemark != null">#{productRemark},</if>
+            <if test="productLastDate != null">#{productLastDate},</if>
+            <if test="productLastTime != null">#{productLastTime},</if>
+            <if test="productLastName != null">#{productLastName},</if>
+            <if test="productLastTcode != null">#{productLastTcode},</if>
+            <if test="productTerminal != null">#{productTerminal},</if>
+            <if test="roductIp != null">#{roductIp},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysProduct" parameterType="SysProduct">
+        update sys_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productType != null">product_type = #{productType},</if>
+            <if test="productRemark != null">product_remark = #{productRemark},</if>
+            <if test="productLastDate != null">product_last_date = #{productLastDate},</if>
+            <if test="productLastTime != null">product_last_time = #{productLastTime},</if>
+            <if test="productLastName != null">product_last_name = #{productLastName},</if>
+            <if test="productLastTcode != null">product_last_tcode = #{productLastTcode},</if>
+            <if test="productTerminal != null">product_terminal = #{productTerminal},</if>
+            <if test="roductIp != null">roduct_ip = #{roductIp},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteSysProductByProductId" parameterType="Long">
+        delete from sys_product where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteSysProductByProductIds" parameterType="String">
+        delete from sys_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+</mapper>
