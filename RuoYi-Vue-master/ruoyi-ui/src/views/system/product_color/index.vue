@@ -127,11 +127,7 @@
           <span>{{ parseTime(scope.row.productLastDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="最后修改时间" align="center" prop="productLastTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.productLastTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="最后修改时间" align="center" prop="productLastTime" width="180"/>
       <el-table-column label="最后修改人" align="center" prop="productLastName" />
       <el-table-column label="最后修改tcode" align="center" prop="productLastTcode" />
       <el-table-column label="终端" align="center" prop="productTerminal" />

@@ -29,15 +29,17 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="最后修改时间">
-        <el-date-picker
+        <el-time-picker
+          is-range
+          arrow-control
           v-model="daterangeProductLastTime"
           style="width: 240px"
-          value-format="hh:mm:ss"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+          value-format="HH:mm:ss"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          placeholder="选择时间范围">
+        </el-time-picker>
       </el-form-item>
       <el-form-item label="最后修改人" prop="productLastName">
         <el-input
@@ -212,7 +214,7 @@ export default {
       // 产品备注时间范围
       daterangeProductLastDate: [],
       // 产品备注时间范围
-      daterangeProductLastTime: [],
+      daterangeProductLastTime: [[new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]],
       // 查询参数
       queryParams: {
         pageNum: 1,

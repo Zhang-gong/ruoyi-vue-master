@@ -77,6 +77,7 @@ public class CategoryProductController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody CategoryProduct categoryProduct)
     {
+        categoryProduct=categoryProduct.setDefaultProductCategory(categoryProduct);
         return toAjax(categoryProductService.insertCategoryProduct(categoryProduct));
     }
 

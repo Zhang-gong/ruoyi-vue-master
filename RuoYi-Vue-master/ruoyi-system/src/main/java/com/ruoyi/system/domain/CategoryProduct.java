@@ -1,7 +1,14 @@
 package com.ruoyi.system.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.ip.IpUtils;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -38,8 +45,8 @@ public class CategoryProduct extends BaseEntity
     private Date productLastDate;
 
     /** 最后修改时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "最后修改时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "HH:mm:ss")
+    @Excel(name = "最后修改时间", width = 30, dateFormat = "HH:mm:ss")
     private Date productLastTime;
 
     /** 最后修改人 */
@@ -148,7 +155,34 @@ public class CategoryProduct extends BaseEntity
     {
         return productIp;
     }
+    public Date formatString(String str) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.parse(str);
+    }
+    public Date formatString1(String str) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+        return simpleDateFormat.parse(str);
+    }
+    public  CategoryProduct setDefaultProductCategory(CategoryProduct categoryProduct){
+        String timeNow = DateUtils.getTime();
+        String date = timeNow.substring(0,10);
+        String time =timeNow.substring(11);
+        String ip= IpUtils.getIpAddr(ServletUtils.getRequest());
+        final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        String browser = userAgent.getBrowser().getName();
+        String userName = SecurityUtils.getUsername();
+        try{Date dateTypedate=formatString(date);categoryProduct.setProductLastDate(dateTypedate);}
+        catch(Exception e){System.out.println(e);}
+        try{Date dateTypetime=formatString1(time);categoryProduct.setProductLastTime(dateTypetime);}
+        catch(Exception e){System.out.println(e);}
 
+        categoryProduct.setProductIp(ip);
+        categoryProduct.setProductLastTcode("WEB-产品型号维护");
+        categoryProduct.setProductTerminal(browser);
+        categoryProduct.setProductLastName(userName);
+        return categoryProduct;
+
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

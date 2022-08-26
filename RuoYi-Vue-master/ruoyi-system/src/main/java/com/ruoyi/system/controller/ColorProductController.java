@@ -77,6 +77,7 @@ public class ColorProductController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ColorProduct colorProduct)
     {
+        colorProduct=colorProduct.setDefaultProductColor(colorProduct);
         return toAjax(colorProductService.insertColorProduct(colorProduct));
     }
 
